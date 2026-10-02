@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ course['title'] }} Final Test | SkillShare{% endblock %}
+{% block content %}
+<main class="test-page">
+  <div class="test-shell">
+    <div class="test-top"><a class="back-link" href="/course/{{ course['id'] }}">← Back to Course</a><span class="test-badge">FINAL ASSESSMENT • 20 QUESTIONS</span></div>
+    <section class="test-hero"><div><span class="eyebrow">CERTIFICATE ASSESSMENT</span><h1>{{ course['title'] }} <em>Final Test</em></h1><p>Answer all 20 course-specific questions. Your percentage determines your certificate tier.</p></div><div class="test-rules"><b>20</b><span>Questions</span><b>50%</b><span>Pass mark</span><b>3</b><span>Certificate tiers</span></div></section>
+    <form method="POST" id="testForm" class="test-layout">
+      <section class="question-panel">
+      {% for q in questions %}{% set qidx=loop.index0 %}<article class="question-card" data-q="{{ qidx }}" {% if not loop.first %}style="display:none"{% endif %}><div class="question-number">QUESTION {{ '%02d'|format(loop.index) }} <span>of {{ questions|length }}</span></div><h2>{{ q[0] }}</h2><div class="option-list">{% for option in q[1] %}<label class="option"><input type="radio" name="q{{ qidx }}" value="{{ loop.index0 }}" required><span class="option-letter">{{ ['A','B','C','D'][loop.index0] }}</span><span>{{ option }}</span></label>{% endfor %}</div></article>{% endfor %}
+      <div class="test-nav"><button type="button" class="outline-btn" id="prevQ">← Previous</button><button type="button" class="gold-btn" id="nextQ">Next question →</button><button type="submit" class="gold-btn" id="submitQ" style="display:none">Submit final test ✓</button></div>
+      </section>
+      <aside class="test-sidebar"><div class="timer-card"><span class="eyebrow">TIME LIMIT</span><strong id="testTimer">30:00</strong><small>Keep your focus. The timer is only a guide.</small></div><div class="navigator-card"><div class="panel-title"><b>Question Navigator</b><span id="answeredCount">0/20</span></div><div class="question-nav-grid">{% for q in questions %}<button type="button" data-nav="{{ loop.index0 }}">{{ loop.index }}</button>{% endfor %}</div><div class="legend"><span>○ Unanswered</span><span>● Answered</span><span>◆ Current</span></div></div><div class="tier-card"><span class="eyebrow">CERTIFICATE TIERS</span><div><b>💎 DIAMOND</b><small>90–100%</small></div><div><b>🥇 GOLD</b><small>75–89%</small></div><div><b>◈ PLATINUM</b><small>50–74%</small></div><p>Below 50%? You can retake the assessment.</p></div></aside>
+    </form>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+ const cards=[...document.querySelectorAll('.question-card')], nav=[...document.querySelectorAll('[data-nav]')], prev=document.getElementById('prevQ'), next=document.getElementById('nextQ'), submit=document.getElementById('submitQ'), count=document.getElementById('answeredCount'); let current=0, seconds=1800;
+ function answered(){return new Set([...document.querySelectorAll('input[type=radio]:checked')].map(x=>x.name)).size}
+ function update(){cards.forEach((c,i)=>c.style.display=i===current?'block':'none');nav.forEach((n,i)=>{n.classList.toggle('current',i===current);const r=document.querySelector(`input[name=q${i}]:checked`);n.classList.toggle('answered',!!r)});prev.style.visibility=current===0?'hidden':'visible';next.style.display=current===cards.length-1?'none':'inline-flex';submit.style.display=current===cards.length-1?'inline-flex':'none';count.textContent=`${answered()}/${cards.length}`}
+ function go(i){current=Math.max(0,Math.min(cards.length-1,i));update();window.scrollTo({top:0,behavior:'smooth'})}
+ next.onclick=()=>go(current+1);prev.onclick=()=>go(current-1);nav.forEach(n=>n.onclick=()=>go(+n.dataset.nav));document.querySelectorAll('input[type=radio]').forEach(r=>r.addEventListener('change',update));document.getElementById('testForm').addEventListener('submit',e=>{if(answered()<cards.length){e.preventDefault();alert('Please answer all 20 questions before submitting.')}});setInterval(()=>{seconds--;let m=String(Math.floor(seconds/60)).padStart(2,'0'),s=String(seconds%60).padStart(2,'0');document.getElementById('testTimer').textContent=`${m}:${s}`;if(seconds<=0)document.getElementById('testForm').submit()},1000);update();
+})();
+</script>
+{% endblock %}

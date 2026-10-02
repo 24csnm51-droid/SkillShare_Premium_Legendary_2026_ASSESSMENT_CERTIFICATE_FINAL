@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block title %}Account Settings | SkillShare{% endblock %}
+{% block content %}
+<main class="shell">
+  <aside class="side-nav"><div class="side-brand">S <span>SkillShare</span></div><a href="/dashboard">⌂ <span>Dashboard</span></a><a href="/discover">⌕ <span>Discover</span></a><a href="/mycourse">▣ <span>My Courses</span></a><a href="/progress">◔ <span>Progress</span></a><a href="/certificates">◆ <span>Certificates</span></a><a class="active" href="/settings">⚙ <span>Settings</span></a><a class="logout-link" href="/logout">↪ <span>Logout</span></a></aside>
+  <section class="workspace">
+    <div class="workspace-top"><div><span class="eyebrow">ACCOUNT CENTER</span><h1>Profile <em>Settings</em></h1><p>Update your learner profile or change your login password.</p></div></div>
+    {% if error %}<div class="error-box">{{ error }}</div>{% endif %}{% if success %}<div class="success-box">✓ {{ success }}</div>{% endif %}
+    <div class="settings-hero"><div class="settings-avatar">{{ user['fullname'][:2]|upper }}</div><div><span class="eyebrow">ACTIVE LEARNER</span><h2>{{ user['fullname'] }}</h2><p>Mobile login: <strong>+91 {{ user['phone'] }}</strong></p></div><div class="settings-badge">● Account active</div></div>
+    <div class="settings-columns">
+      <section class="settings-panel"><div class="section-title compact"><span>PROFILE</span><h2>Personal <em>details</em></h2></div><form method="POST" class="form settings-form"><input type="hidden" name="action" value="profile"><label>Full name<input name="fullname" value="{{ user['fullname'] }}" required></label><label>Mobile number<div class="phone-input"><span>+91</span><input name="phone" value="{{ user['phone'] }}" maxlength="10" pattern="[6-9][0-9]{9}" required></div></label><label>Email address<input type="email" name="email" value="{{ user['email'] }}" required></label><button class="gold-btn" type="submit">Save profile changes →</button></form></section>
+      <section class="settings-panel"><div class="section-title compact"><span>SECURITY</span><h2>Change <em>password</em></h2></div><form method="POST" class="form settings-form"><input type="hidden" name="action" value="password"><label>Current password<input type="password" name="current_password" required></label><label>New password<input type="password" name="new_password" minlength="6" required></label><label>Confirm new password<input type="password" name="confirm_password" minlength="6" required></label><button class="gold-btn" type="submit">Update password →</button></form></section>
+    </div>
+    <div class="notice">🔐 Your login is linked to your mobile number. Keep your password private and use the settings above whenever you want to change it.</div>
+  </section>
+</main>{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}Verify Mobile | SkillShare{% endblock %}
+{% block content %}
+<main class="auth-page otp-page"><section class="auth-showcase"><span class="eyebrow">SECURE VERIFICATION</span><h1>Your number. Your <em>learning identity.</em></h1><p>We verify your mobile number before creating a SkillShare account so every learner profile is tied to a real number.</p><div class="showcase-list"><span>✓ One-time 6 digit verification</span><span>✓ OTP expires automatically</span><span>✓ Account is created only after verification</span></div></section>
+<section class="auth-card"><div class="auth-logo">✓</div><span class="eyebrow">MOBILE VERIFICATION</span><h2>Enter your OTP</h2><p class="muted">We sent a 6-digit code to <strong>+91 {{ phone }}</strong>.</p>{% if error %}<div class="error-box">{{ error }}</div>{% endif %}{% if success %}<div class="success-box">✓ {{ success }}</div>{% endif %}
+<form method="POST" action="{{ url_for('verify_registration') }}" class="form"><label>Verification code<input class="otp-input" name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required></label><button class="gold-btn full" type="submit">Verify & create account <span>→</span></button></form>
+<a class="outline-btn full" href="{{ resend_url }}">Resend OTP</a><p class="form-note">For the college demo, if real SMS credentials are not configured, the generated demo OTP is printed in the Flask terminal.</p></section></main>
+{% endblock %}

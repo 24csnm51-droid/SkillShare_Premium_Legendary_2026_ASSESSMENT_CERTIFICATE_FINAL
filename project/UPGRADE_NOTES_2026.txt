@@ -1,0 +1,11 @@
+SkillShare Legendary 2026 Upgrade
+
+- Preserved the existing Flask + SQLite learner/admin functionality.
+- Added a non-destructive Legendary visual layer: midnight navy, cyan, emerald and violet accents.
+- Rebuilt the learner dashboard layout to a modern e-learning command center with sidebar, hero metrics, quick actions, course cards and right-side analytics.
+- Added Connect / Community experience with searchable learner cards and local connection state.
+- Added Share Your Skill / Become a Mentor entry points.
+- Added dynamic dashboard global search shortcut (Ctrl+K), notification interaction and UI micro-interactions.
+- Preserved AJAX lesson progress flow without the unwanted "Saving progress..." message.
+- Preserved OTP registration, mobile login, certificates and admin security.
+- Existing course SVG artwork is reused at controlled sizes; no generated images are required.

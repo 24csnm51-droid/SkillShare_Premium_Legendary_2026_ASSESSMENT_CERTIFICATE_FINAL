@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% block title %}Create Learner Account | SkillShare{% endblock %}
+{% block content %}
+<main class="auth-page">
+  <section class="auth-showcase"><img class="auth-learning-art" src="{{ url_for('static', filename='images/register-learning.svg') }}" alt="SkillShare registration illustration">
+    <span class="eyebrow">START YOUR JOURNEY</span><h1>One account. A complete <em>learning journey.</em></h1>
+    <p>Create your learner profile, enroll in courses and build a certificate collection that feels genuinely professional.</p>
+    <div class="showcase-list"><span>✓ Login with your mobile number</span><span>✓ Personal learning dashboard</span><span>✓ Progress and certificate tracking</span></div>
+  </section>
+  <section class="auth-card">
+    <div class="auth-logo">SS</div><span class="eyebrow">NEW LEARNER</span><h2>Create account</h2><p class="muted">Your mobile number becomes your login ID.</p>
+    {% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+    <form method="POST" action="/register" class="form">
+      <label>Full name<input name="fullname" placeholder="Your full name" required></label>
+      <label>Mobile number<div class="phone-input"><span>+91</span><input name="phone" type="tel" inputmode="numeric" maxlength="10" pattern="[6-9][0-9]{9}" placeholder="9876543210" required></div></label>
+      <label>Email address<input type="email" name="email" placeholder="you@example.com" required></label>
+      <label>Password<div class="password-wrap"><input id="regPassword" type="password" name="password" placeholder="Minimum 6 characters" minlength="6" required><button type="button" data-toggle-password="regPassword">Show</button></div></label>
+      <label>Confirm password<input type="password" name="confirm_password" placeholder="Repeat your password" minlength="6" required></label>
+      <button class="gold-btn full" type="submit">Create SkillShare account <span>→</span></button>
+    </form>
+    <div class="divider"><span></span>Already registered?<span></span></div><a class="outline-btn full" href="/login">Login with mobile number</a>
+  </section>
+</main>{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}{{ course['title'] }} | SkillShare{% endblock %}
+{% block content %}
+<main class="course-page">
+  <a class="back-link" href="/discover">← Back to Discover</a>
+  <section class="course-hero">
+    <div class="course-hero-grid">
+      <div>
+        <span class="pill">{{ course['category'] }}</span>
+        <h1>{{ course['title'] }}</h1>
+        <p>{{ course['description'] }}</p>
+        <div class="hero-tags"><span>★ {{ course['rating'] }}</span><span>◉ {{ course['level'] }}</span><span>◷ {{ course['duration'] }}</span><span>♟ {{ course['students'] }} learners</span></div>
+      </div>
+      <div class="course-hero-art"><img src="{{ url_for('static', filename='images/courses/course-' ~ (((course['id'] - 1) % 6) + 1) ~ '.svg') }}" alt="{{ course['title'] }} course visual"><div class="course-hero-icon {{ course['accent'] }}">{{ course['icon'] }}</div></div>
+    </div>
+  </section>
+
+  <section class="course-layout">
+    <div>
+      <div class="video-card">
+        <div class="video-heading"><div><span class="eyebrow">PRIMARY RESOURCE</span><h2>Learn with the <em>video lesson</em></h2></div><a class="outline-btn tiny" href="{{ course['video_url'] }}" target="_blank" rel="noopener">Open YouTube ↗</a></div>
+        {% if youtube_id %}<div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/{{ youtube_id }}?rel=0&modestbranding=1" title="{{ course['title'] }} learning video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>{% else %}<div class="video-fallback">YouTube resource is not configured for this course.</div>{% endif %}
+      </div>
+
+      <div class="lesson-card" data-course-lessons="{{ course['lessons'] }}" data-course-id="{{ course['id'] }}">
+        <div class="section-title compact"><span>LEARNING PATH</span><h2>Course <em>completion</em></h2></div>
+        {% if enrollment %}
+        <div class="big-progress">
+          <div><div><strong id="courseProgressValue">{{ enrollment['progress'] or 0 }}%</strong><span>completed</span></div><b id="courseProgressLabel">{% if enrollment['progress']>=100 %}Course complete{% else %}Keep going — your progress is saved{% endif %}</b></div>
+          <div class="meter large"><span id="courseProgressBar" style="width:{{ enrollment['progress'] or 0 }}%"></span></div>
+        </div>
+        <div class="lesson-grid" id="lessonGrid">
+          {% for n in range(1, course['lessons']+1) %}{% set threshold=(n / course['lessons'] * 100) %}
+          <div class="lesson {% if enrollment['progress'] >= threshold %}done{% endif %}" data-lesson="{{ n }}"><span>{% if enrollment['progress'] >= threshold %}✓{% else %}{{ '%02d'|format(n) }}{% endif %}</span><div><b>Lesson {{ n }}</b><small>{{ course['title'] }} practical module</small></div></div>
+          {% endfor %}
+        </div>
+        {% if enrollment['progress']<100 %}
+        <form method="POST" action="/course/{{ course['id'] }}/lesson" data-lesson-form>
+          <button class="gold-btn full" type="submit" id="completeLessonBtn">Complete next lesson <span>→</span></button>
+        </form>
+        {% else %}
+        <div class="completion-banner" id="completionBanner"><span>✓</span><div><b>Congratulations! Course completed.</b><small>Your final assessment is unlocked. Take the course test to earn a tiered certificate.</small></div><a class="gold-btn" href="/test/{{ course['id'] }}">Take final test →</a></div>
+        {% endif %}
+        {% else %}
+        <div class="enroll-callout"><div><b>Ready to start this learning path?</b><p>Enroll to unlock progress tracking, lessons and your completion certificate.</p></div><form method="POST" action="/enroll/{{ course['id'] }}"><button class="gold-btn" type="submit">Enroll now <span>→</span></button></form></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <aside class="course-sidebar">
+      <div class="side-card highlight"><span class="eyebrow">COURSE SNAPSHOT</span><h3>Everything you need.</h3><ul><li><span>🎥</span>Linked YouTube learning resource</li><li><span>📈</span>Saved progress tracking</li><li><span>📝</span>20-question course-specific final test</li><li><span>🏆</span>Diamond, Gold or Platinum certificate</li><li><span>▣</span>{{ course['lessons'] }} structured lessons</li></ul></div>
+      <div class="side-card visual-side-card"><img src="{{ url_for('static', filename='images/learning-loop.svg') }}" alt="Learning illustration"><span class="eyebrow">SOURCE LINK</span><p>Open the original resource anytime in YouTube.</p><a href="{{ course['video_url'] }}" target="_blank" rel="noopener">Open original video ↗</a></div>
+    </aside>
+  </section>
+</main>
+{% endblock %}

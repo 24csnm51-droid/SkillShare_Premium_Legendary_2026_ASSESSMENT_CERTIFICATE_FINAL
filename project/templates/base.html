@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}SkillShare — Learn. Share. Grow.{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/premium.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/legendary.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/premium2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/assessment.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body class="{% if request.path == '/dashboard' %}app-dashboard{% endif %}">
+<div class="ambient"></div><div class="scroll-progress" id="scrollProgress"></div>
+<header class="site-header">
+  <a class="brand" href="/"><span class="brand-mark">✦</span>Skill<span>Share</span></a>
+  <nav class="desktop-nav"><a href="/discover">Discover</a>{% if logged_in %}<a href="/learning-journey">Learning Journey</a>{% endif %}<a href="/about">How it works</a><a href="/community">Community</a><a href="/connect">Connect</a></nav>
+  <div class="header-actions">
+    {% if admin_logged_in %}<a class="ghost-btn" href="/admin">Admin Panel</a>{% else %}<a class="admin-mini" href="/admin/login">Admin</a>{% endif %}
+    {% if logged_in %}<a class="ghost-btn" href="/logout">Logout</a>{% else %}<a class="ghost-btn" href="/login">Log in</a><a class="gold-btn small" href="/register">Join SkillShare <span>↗</span></a>{% endif %}
+  </div>
+</header>
+{% with messages = get_flashed_messages() %}{% if messages %}<div class="toast" id="toast">✓ {{ messages[0] }}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+<footer class="site-footer">
+  <div class="footer-main">
+    <div><a class="brand footer-brand" href="/"><span class="brand-mark">✦</span>Skill<span>Share</span></a><p>Learn practical skills. Share knowledge. Grow with confidence.</p></div>
+    <div><b>Explore</b><a href="/discover">Discover Courses</a><a href="/community">Community</a><a href="/connect">Connect</a><a href="/about">How it works</a></div>
+    <div><b>Company</b><a href="/about#mission">Our Mission</a><a href="/about#vision">Our Vision</a><a href="/contact">Contact Us</a></div>
+    <div><b>Access</b>{% if logged_in %}<a href="/dashboard">Learner Dashboard</a><a href="/settings">Account Settings</a>{% else %}<a href="/login">Learner Login</a><a href="/register">Create Account</a>{% endif %}<a href="/admin/login">Admin Login</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 SkillShare. Built for learning.</span><span><a href="/privacy">Privacy</a> · <a href="/contact">Contact</a> · <a href="/admin/login">Admin Access</a></span></div>
+</footer>
+<button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body></html>

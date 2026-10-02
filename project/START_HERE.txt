@@ -1,0 +1,69 @@
+SKILLSHARE PREMIUM FINAL — 2026 EDITION
+========================================
+
+SETUP
+-----
+1) Extract the ZIP and open the project folder in VS Code.
+2) Terminal:
+   cd project
+   pip install -r requirements.txt
+   python app.py
+3) Open: http://127.0.0.1:5000
+
+WHAT IS INCLUDED
+----------------
+Learner:
+- Registration: full name + mobile + email + password
+- Demo OTP verification before account creation
+- Mobile-number login
+- Discover search + category filters + sorting
+- Course enrollment
+- My Courses
+- YouTube learning video + direct YouTube link
+- Lesson progress tracking up to 100%
+- Premium certificate PDF download
+- Profile + password settings
+
+Admin:
+- Separate visible Admin Login
+- Course add / edit / delete
+- YouTube URL management
+- Featured courses
+- Enrollment counts
+- Learner directory + edit/delete
+- Enrollment activity + progress
+- Admin mobile verification
+- OTP-protected admin password change
+
+2026 PREMIUM UI
+---------------
+- Deep Navy / Electric Blue / Purple visual system
+- Responsive learner navigation for mobile
+- SkillShare-related course imagery with compact card proportions
+- Glassmorphism panels, gradients, depth and hover states
+- Scroll progress indicator + back-to-top control
+- Scroll reveal animations
+- Discover sorting and live result count
+- Course favourites saved in browser localStorage
+- Password strength feedback
+- Progress/lesson interaction feedback
+- Existing routes, database and core features preserved
+
+ADMIN DEMO LOGIN
+----------------
+Email: admin@skillshare.com
+Password: admin123
+
+OTP DEMO
+--------
+If real Fast2SMS credentials are not configured, the project creates a DEMO OTP
+and prints it in the Flask terminal. It expires automatically. Correct OTP is
+required before a learner account is created.
+
+The initial admin mobile is 9876543210. Replace it from Admin > Security,
+then verify it with the demo OTP before using OTP-protected password changes.
+
+IMPORTANT
+---------
+Do not delete skillshare.db.
+If you already have learner data, keep the existing database file.

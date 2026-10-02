@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% block title %}Learner Login | SkillShare{% endblock %}
+{% block content %}
+<main class="auth-page">
+  <section class="auth-showcase"><img class="auth-learning-art" src="{{ url_for('static', filename='images/login-learning.svg') }}" alt="SkillShare learning illustration">
+    <span class="eyebrow">SKILLSHARE LEARNING</span>
+    <h1>Learn something that makes you <em>stand out.</em></h1>
+    <p>Sign in with your mobile number. Existing older demo accounts can also use their registered email.</p>
+    <div class="showcase-list"><span>✓ Mobile-number based login</span><span>✓ Course progress saved automatically</span><span>✓ Verified certificate after completion</span></div>
+    <div class="showcase-stat"><b>01</b><div><strong>Login</strong><small>Use your registered 10-digit mobile number.</small></div></div>
+    <div class="showcase-stat"><b>02</b><div><strong>Learn</strong><small>Watch the linked learning videos and complete lessons.</small></div></div>
+    <div class="showcase-stat"><b>03</b><div><strong>Achieve</strong><small>Reach 100% and unlock your certificate.</small></div></div>
+  </section>
+  <section class="auth-card">
+    <div class="auth-logo">SS</div><span class="eyebrow">LEARNER ACCESS</span><h2>Welcome back</h2><p class="muted">New accounts: use your 10-digit mobile number. Older demo accounts: email also works.</p>
+    {% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+    <form method="POST" action="/login" class="form">
+      <label>Mobile number or email<div class="phone-input"><span>SS</span><input name="identifier" type="text" inputmode="email" autocomplete="username" placeholder="9876543210 or you@example.com" required></div></label>
+      <label>Password<div class="password-wrap"><input id="password" type="password" name="password" placeholder="Enter your password" required><button type="button" data-toggle-password="password">Show</button></div></label>
+      <div class="form-row"><span>Secure local account</span><a href="/register">Create account</a></div>
+      <button class="gold-btn full" type="submit">Login to SkillShare <span>→</span></button>
+    </form>
+    <div class="divider"><span></span>New to SkillShare?<span></span></div>
+    <a class="outline-btn full" href="/register">Create your learner account</a>
+    <a class="admin-entry" href="/admin/login">Admin / Faculty access →</a>
+  </section>
+</main>{% endblock %}
